@@ -5,7 +5,6 @@ regex101.com      — bütün regex örneklerini denediğimiz site
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp#browser_compatibility — Hangi browserın hangi regex kodlarını desteklediğini gösteren site.
 
 
-https://github.com/bonnie/udemy-REGEX/tree/main/exercises/javascript   — Udemy Github
 
 
 
@@ -274,7 +273,11 @@ Lazy = Take as little as you can and still match.  (?)
 
 \w+\b(?!\W?$) — cümle sonunda olmayan tüm kelimeleri yakalar.
 
-***…….= “x”    x i bulmak için olan log: (?<==")\w+#? ?@?\.?\w+ 
+(1?\d|2[0-3]):[0-5]\d -- saat matchleyen regex
+
+
+
+…….= “x”    x i bulmak için olan log: (?<==")\w+#? ?@?\.?\w+ 
 
 
 *****************************************Örnek Log ve Log çözümü ********************************************
