@@ -1,29 +1,28 @@
 Regular Expressions
 
 https://www.rexegg.com/regex-quickstart.html       — regex komutlarını açıklayan site
-regex101.com      — bütün regex exampleları denediğimiz site
+regex101.com      — bütün regex örneklerini denediğimiz site
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp#browser_compatibility — Hangi browserın hangi regex kodlarını desteklediğini gösteren site.
+
 
 https://github.com/bonnie/udemy-REGEX/tree/main/exercises/javascript   — Udemy Github
 
 
-Hexadecimal (base 16) 
-	
-	0-15 e kadar olan sayılar tutulur. 9’dan sonra 10 = A , 11 = B ….
 
 
 Special Characters:
 
-Quentifier
-
+Quentifiers
+********************************
 ?  —       0 veya 1 kere
 
 +  —       1 veya daha fazla 
 
 
 *  —      0 veya daha fazla  (Zero or more times)
+********************************
 
-
-.    —      Yeni bir satıra geçmediğin(arent newline) sürece noktadan sonra girilen tüm karakterleri kapsayabilir.    
+.    —      Yeni bir satıra geçmediğin(aren’t newline) sürece noktadan sonra girilen tüm karakterleri kapsayabilir.    
 		Örnek: .*  = Any character  except a newline 0 or more times
 
 
@@ -33,10 +32,11 @@ Quentifier
 		/[0-9A-F]+/    bu ise aynı şeyin kısa hali 0-9 (0dan 9 a tüm sayılar). A-F(A’den F’ye tüm harfler)
 
 
-{}       Yakalanacak karakterin kaç defa olması gerektiğini belirler
+{}  —      Yakalanacak karakterin kaç defa olması gerektiğini belirler
 
+Örnek:
 
-/Kittens\.{3,5}/   “.” Karakteri için
+	 /Kittens\.{3,5}/   “.” Karakteri için
 
 	 {3,5}  3 ile 5 arasında bir sayıda(3 ve 5 dahil)
 	
@@ -44,23 +44,48 @@ Quentifier
 	
 	 {3,}   3 veya daha fazla defa
 	
+***********************************************************************************************
 ()     — (Group) gruplama yapmak için kullanılır 
 	
-örnek:    I love (kittens|puppy|cat) — burada gruplayıp aralarına or işareti koyduk.
+örnek:    I love (kittens|puppy|cat) — burada gruplayıp aralarına “or”(|) işareti koyduk.
 
 
-	** (?…. ….)  “?” karakteri grupların başında kullanırsak ne tarz bir gurup olduğunu söyler.
+** (?…. ….)  “?” karakteri grupların başında kullanırsak ne tarz bir gurup olduğunu söyler.
 	Mesela (?:jpeg|pdf) bunu yakalama demek(?:) 
 
-?:  = Non-Capturing group
-?<group_name> = Grup adı belirlemek için.
+	?:  = Non-Capturing group(yine de match olur fakat group olarak gözükmemesini sağlar)
+	
+	?<group_name> = Grup adı belirlemek için.
+
+	(?=)  = Positive Lookahead
+
+	(?!)   = Negative Lookahead
+
+	(?<=)  = Positive Lookbehind  — match whatever in this group before but don’t include in match
+
+	(?<!)   = Negative Lookbehind
+
+Positive lookahead : aradığımız match karakterinden sonra ne olması gerektiği.  \w+((?=;)) — aradığımız matchten sonra “;” olmalı
+Negative lookbehind: aradığımız match karakterinden önce  ne olmaması gerektiği…
+
+
+Örnek:      Given the string foobarbarfoo:
+
+
+bar(?=bar)     finds the 1st bar ("bar" which has "bar" after it)           positive lookahead
+bar(?!bar)     finds the 2nd bar ("bar" which does not have "bar" after it)	negative lookahead
+(?<=foo)bar    finds the 1st bar ("bar" which has "foo" before it)			positive lookbehind
+(?<!foo)bar    finds the 2nd bar ("bar" which does not have "foo" before it)		negative lookbehind
+
+
+
 \1  = Captureladığımız grup no 1’i referans gösterir bu sayede bu grubu ilerde kullanabiliriz.
 	
 
 ^   1- Bir collectionun başında kullanılınca []   “not” anlamı verir
 	/[^A-G]/    A’dan G ye olan harfler harici olanları yakalar
 
-	2- / ^\-+      Bir diğer kullanımı ise ^’dab sonra yazılanın (-)  satır başında(1 veya daha fazla +) olduğu durumda yakalar.(Anchor)
+	2- / ^\-+      Bir diğer kullanımı ise ^’dan sonra yazılanın (-)  satır başında(1 veya daha fazla +) olduğu durumda yakalar.(Anchor)
 
 
 $     ^ işaretinin 2. Anlamının aynısını cümle sonu için yapar.
@@ -79,17 +104,17 @@ Merhabalar?Nasılsınız?    — No match ( Başında ^ sonunda $ kullanmasaydı
 
 \     1- Ters slaş  işaretinden sonra girilen özel karakter özel anlamını kaybeder.
 
-			Örnek:  Kittens\.\+\?  — catches   “Kittens.+?”   özel anlamlı karakterleri içinde barındıran stringi catchledik.
+			Örnek:  Kittens\.\+\?  — matches   “Kittens.+?”   özel anlamlı karakterleri içinde barındıran stringi matchledik.
 
 	2-   özel olmayan bazı karakterlere özel anlamlar katar.
 
 
-Whitespace characters:
+Whitespace characters:(hepsini kapsayan \s'dir)
 
 	
-	\t           — Tab
+	\t           	  — Tab
 	
-	\n          — Newline
+	\n          	  — Newline
 	
 	\r		  — Carriage Return   Lineın en başına getirir
 	
@@ -109,6 +134,8 @@ Others:(Classes)
 
 	\b       — word boundary.  Before \b = \w   after \b = \W   ya da tam tersi (before \b =\W after = \w)
 
+			\b girildiği yerin öncesine ve sonrasına bakar öncesinde word karakteri(\w) sonrasında da word olmayan karakter(\W) varsa çalışır.
+
 
 	/\bstem   — stem kelimesinin öncesinde yani “s” harfi ile ondan önce gelen karaktere bakar
 	
@@ -116,15 +143,15 @@ Others:(Classes)
 
 Örnek:
 	
-	\bstem\b  — ilk. Cümledeki “stem”  kelimesini alır 2.dekini almaz  (s’den önce y geliyor)
+	\bstem\b  — Aşağıdaki 1. cümledeki “stem”  kelimesini alır 2.dekini almaz  (s’den önce y geliyor)
 	
-	That rose has a lovely stem!
+	1-That rose has a lovely stem!
 	
-	Look at that solar system!
+	2-Look at that solar system!
 
 
 	
-	\B     — before and after \B are both w or both W
+	\B     — \b ‘ non tersi(\B ‘ den sonra ve önce girilen karakterlerin her ikisi de word ya da her ikisi de word olmayan karakterdir)
 	
 
 
@@ -151,19 +178,7 @@ They  — bunu yakalar
 heeeeey.  — bunu yakalamaz
 
 
-
-
-
-More Quentifiers
-
-Quentifier
-
-?        0 veya 1 kere
-
-+        1 veya daha fazla 
-
-
-*       0 veya daha fazla  (Zero or more times)
+********* Basics**********
 
 
 Örnek:
@@ -178,34 +193,32 @@ Son olarak “y” harfi.   (Immediately followed by)
  heeey   — match
 heeeee —  no match (need “y”)
 
-
-/Kittens?!/     
-
-
-“Kitten” olacak  “s” ise ya hiç olmayacak ya da en fazla 1 kere olacak.Hemen arkasından “!” Karakteri gelecek.
+/Kittens?!/      
 
 
-Kitten!     — Match
+	“Kitten” olacak  “s” ise ya hiç olmayacak ya da en fazla 1 kere olacak.Hemen arkasından “!” Karakteri gelecek.
 
-Kittenssss!    — No Match
+	Kitten!     — Match
 
-Kittens!    — Match
+	Kittenssss!    — No Match
+
+	Kittens!    — Match
 
 
 /Kittens!*/
 
-“Kittens” olacak Hemen arkasından “!” Karakteri ya gelmeyecek ya da istediği sayıda gelecek.
+	“Kittens” olacak Hemen arkasından “!” Karakteri ya gelmeyecek ya da istediği sayıda gelecek.
 
 
-Kittens   — Match
+	Kittens   — Match
 
-Kittens!!!!!!!!  —Match
+	Kittens!!!!!!!!  —Match
 
 
 
 **** Special Characters (  [ ?, + , * , .] ) 
 
-Özel karakterleri özel anlamları dışında normal şekilde kullanmak için “[]” köşeli parantez içine alınır.
+Özel karakterleri özel anlamları dışında normal şekilde kullanmak için “[]” köşeli parantez içine alınır.Bir diğer daha çok kullanılan yok ise \’ten sonra yazılmasıdır(\?) ? özel anlamını kaybetti ve bildiğimiz soru işaretini aynı bir harf gibi yakalamaya çalışacak.
 
 
 
@@ -215,7 +228,7 @@ Kittens!!!!!!!!  —Match
 
 
 
-Eğer bizim catchlemeye çalıştığımız string Kittens…… veya Kittens. İse bunu :
+Eğer bizim matchlemeye çalıştığımız string Kittens…… veya Kittens. İse bunu :
 
 /Kittens[.]+/ şeklinde göstermeliyiz.
 
@@ -238,7 +251,7 @@ Greedy = Take everything you can and still match  (default)
 Lazy = Take as little as you can and still match.  (?) 
 	Örnek lazy:
 		/gre+/   normalde greeee, gre  gibi kelimeleri matchler fakat 
-		/gre+?/ yaparsak + anın anlamı 1 or more times olduğu için sadece “gre” matchler(tek e)   
+		/gre+?/ yaparsak + anın anlamı 1 or more times olduğu için sadece “gre” matchler(tek e)  
 
 
 	Örnek bir lazy kullanımı:
@@ -247,45 +260,42 @@ Lazy = Take as little as you can and still match.  (?)
 
 
 
+****************************************** Örnek Hazır Kodlar ************************************************
 
 
+^(\w+)\b.*\b\1$    =   stringte baştaki kelimeyle sondaki kelime aynı olursa match. Örnek: gel buraya gel — match
 
 
+[\w_.]+@\w+\.w+ = mail match
+
+(?<=USD )\d+(?:\.\d\d)?$     = USD 20.18  — matches 20.18
+
+(?<!^)(?<![\.?!]”?\s+”?)[A-Z]\w*\b = Cümle başında olanlar hariç büyük harfle başlayan kelimeleri yakalar.
+
+\w+\b(?!\W?$) — cümle sonunda olmayan tüm kelimeleri yakalar.
+
+***…….= “x”    x i bulmak için olan log: (?<==")\w+#? ?@?\.?\w+ 
 
 
-
-
-
-
-
-
-
-berk_1923blabla.97@gmail.com 
-
-Maildeki karakterleri yakalamak için yazılan regular expression :   [\w_.]+@\w+\.w+ 
-
-
-Bu regular expressionda  [\w_.]+@ bu kısım  (A-Z , a-z ve 0-9 a kadar olan karakterleri yakalar ayrıca “_” ve “.” yı da yakalar.  berk_1923blabla.97@ burası yakalanmış oldu.
-
-
-[\w_.]+@\w+\. Bu ise   berk_1923blabla.97@gmail.   buraya kadar olan kısmı yakalamış olur.
-,
-
-
-[\w_.]+@\w+\.w+.
-
-
-name="+\w+\w”      name = “ ……” kısmını tutuyor.
-
+*****************************************Örnek Log ve Log çözümü ********************************************
+Log:
 
    2023-07-05T12:31:44.091000+03:00 10.35.0.1 device="SFW" date=2023-07-05 time=12:31:44 timezone="+03" device_name="XG550" device_id=C510282K3D4J244 log_id=010101600001 log_type="Firewall" log_component="Firewall Rule" log_subtype="Allowed" status="Allow" priority=Information duration=61 fw_rule_id=80 fw_rule_name="Full_List" fw_rule_section="Local rule" nat_rule_id=32 nat_rule_name="fw#80_migrated_NAT_Rule" policy_type=1 sdwan_profile_id_request=0 sdwan_profile_name_request="" sdwan_profile_id_reply=0 sdwan_profile_name_reply="" gw_id_request=1 gw_name_request="ULAKNET" gw_id_reply=0 gw_name_reply="" sdwan_route_id_request=0 sdwan_route_name_request="" sdwan_route_id_reply=0 sdwan_route_name_reply="" user_name="s0170@siirtedu.local" user_gp="Idari" iap=0 ips_policy_id=0 appfilter_policy_id=0 application="QUIC" application_risk=1 application_technology="Network Protocol" application_category="Infrastructure" vlan_id="" ether_type=Unknown (0x0000) bridge_name="" bridge_display_name="" in_interface="PortB2" in_display_interface="PortB2" out_interface="PortA5" out_display_interface="PortA5" src_mac=E4:D3:F1:5F:66:BF dst_mac=00:1A:8C:6B:59:DA src_ip=10.49.1.45 src_country_code=R1 dst_ip=142.251.141.35 dst_country_code=USA protocol="UDP" src_port=52358 dst_port=443 sent_pkts=6 recv_pkts=6 sent_bytes=1664 recv_bytes=3782 tran_src_ip=194.27.146.16 tran_src_port=0 tran_dst_ip= tran_dst_port=0 srczonetype="LAN" srczone="LAN" dstzonetype="WAN" dstzone="WAN" dir_disp="" connevent="Stop" connid="980746174" vconnid="" hb_health="No Heartbeat" message="" appresolvedby="Signature" app_is_cloud=0 log_occurrence=1 flags=0
 
+Çözüm:
 
 ^(?:.*?\bdate=(?<date>[^\s]+)\stime=(?<time>[^\s]+)\s)?(?:.*?\blog_id=(?<log_id>\d+)\s)?(?:.*?\blog_type="(?<log_type>[^"]+)"\s)?(?:.*?log_component="(?<log_component>[^"]+)"\s)?(?:.*?log_subtype="(?<log_subtype>[^\s]+)"\s)?(?:.*?status="(?<status>[^"]+)"\s)?(?:.*?user_name="(?<user_name>[^"]+)"\s)?(?:.*?src_ip=(?<src_ip>[^\s]+)\s)?(?:.*?dst_ip=(?<dst_ip>[^\s]+)\s)?(?:.*?protocol="(?<protocol>[^"]+)"\s)?(?:.*?src_port=(?<src_port>[^\s]+)\s)?(?:.*?dst_port=(?<dst_port>[^\s]+)\s).*
 
 
 
 
-\w*.\w*.\w*\w*\w*\w*
+
+
+
+
+
+
+
+
 
 
